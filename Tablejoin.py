@@ -12,7 +12,7 @@ def get_snowflake_cursor():
 def create_session_summary_table():
     cursor = get_snowflake_cursor()
     try:
-        # Create the analytics schema if it doesn't exist and the session_summary table
+        
         cursor.execute("CREATE SCHEMA IF NOT EXISTS analytics;")
         cursor.execute("""
             CREATE TABLE IF NOT EXISTS analytics.session_summary (
@@ -31,7 +31,7 @@ def create_session_summary_table():
 def populate_session_summary():
     cursor = get_snowflake_cursor()
     try:
-        # Insert joined data, checking for duplicates by sessionId
+       
         cursor.execute("""
             INSERT INTO analytics.session_summary (userId, sessionId, channel, ts)
             SELECT DISTINCT 
@@ -57,7 +57,7 @@ with DAG(
     tags=['ELT']
 ) as dag:
     
-    # Define task order: create table with schema, then populate
+ 
     create_table_task = create_session_summary_table()
     populate_data_task = populate_session_summary()
 
